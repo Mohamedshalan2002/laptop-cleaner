@@ -1,108 +1,104 @@
-﻿# Laptop Cleaner
+# Laptop Cleaner
 
-أداة ويندوز لتنظيف القرص **بنقرة واحدة** — بواجهة عربية وإنجليزية.
+A one-click Windows disk cleanup tool with an Arabic + English GUI.
 
-جهاز العمل بيمتلئ دايمًا؟ الأداة دي بتنضّفه من الملفات المؤقتة والكاشات القابلة لإعادة التوليد بأمان، من غير ما تلمس أي ملف شخصي.
-
----
-
-## التشغيل
-
-1. نزّل الريبو (أو حمّل الملفات الأربعة).
-2. دوس مرتين على **`Clean-Laptop-AR.bat`** للواجهة العربية، أو **`Clean-Laptop.bat`** للإنجليزية.
-3. اضغط **"نعم"** في نافذة صلاحيات المسؤول ← تظهر الواجهة ← اضغط الزر الكبير.
-
-مفيش تثبيت، ومفيش أي حاجة تتسجّل في النظام.
-
-**المتطلبات:** ويندوز 10 أو 11 (PowerShell 5.1 مدمج أصلًا).
+Work laptop filling up again? This tool safely reclaims space from regenerable caches and temporary files — without ever touching your documents, bookmarks, or saved passwords.
 
 ---
 
-## بتنضّف إيه
+## Quick start
 
-| # | المجموعة |
+1. Download the repo (or grab the four files).
+2. Double-click **`Clean-Laptop.bat`** for the English UI, or **`Clean-Laptop-AR.bat`** for the Arabic one.
+3. Click **Yes** on the UAC prompt → the window opens → press the big button.
+
+No install. Nothing is registered in the system. Fully portable — run it from a desktop, a USB stick, or any folder.
+
+**Requirements:** Windows 10 or 11 (PowerShell 5.1 ships with the OS).
+
+---
+
+## What it cleans
+
+| # | Group |
 |---|---|
-| 1 | ملفات ويندوز والمستخدم المؤقتة + تقارير الأعطال |
-| 2 | كاشات المتصفحات — Edge / Chrome / Brave / Chromium (كل الحسابات) |
-| 3 | كاشات التطبيقات — Slack، Discord، Zoom، Notion، VS Code، Teams، Postman، Figma |
-| 4 | مخلفات المُثبِّتات — محدّث جوجل، تحديثات WPS |
-| 5 | حزم إضافات WPS (تُنزَّل تاني عند الحاجة) |
-| 6 | كاشات أدوات البرمجة — pip، npm، pnpm، Yarn |
-| 7 | كاش المصغّرات وذاكرة الإنترنت |
-| 8 | مخلفات ترقية ويندوز + `DISM` لمخزن المكونات + أداة ويندوز الرسمية |
+| 1 | Windows and user temp files + crash reports |
+| 2 | Browser caches — Edge / Chrome / Brave / Chromium (all profiles) |
+| 3 | App caches — Slack, Discord, Zoom, Notion, VS Code, Teams, Postman, Figma |
+| 4 | Installer leftovers — Google updater, WPS update packages |
+| 5 | WPS add-on package pool (re-downloaded on demand) |
+| 6 | Dev tool caches — pip, npm, pnpm, Yarn |
+| 7 | Thumbnail cache and internet cache |
+| 8 | Windows upgrade leftovers + `DISM` component store cleanup + built-in Disk Cleanup |
 
-**مكسب نموذجي:** 5–15 جيجا حسب استخدامك.
-
----
-
-## الأمان — إيه اللي *مش* بتمسّه
-
-- ❌ مكتباتك وملفاتك الشخصية (سطح المكتب، المستندات، التنزيلات، الصور)
-- ❌ **المفضلة وكلمات المرور وسجل التصفح** — بتُحذف مجلدات الكاش فقط
-- ❌ بيانات تسجيل الدخول لأي برنامج
-- ❌ سلة المحذوفات (إلا لو فعّلت الخيار بنفسك)
-- ❌ ملفات النظام
-
-### مبادئ التصميم
-
-- **تُتخطّى الملفات المقفلة بصمت** بدل إجبارها أو الفشل — تقدر تشغّلها والتطبيقات شغالة.
-- **تُستنتج مسارات المستخدم ديناميكيًا** — بعض أجهزة الشركات بيكون فيها `%LOCALAPPDATA%` فارغة.
-- **تتحقق من المسارات قبل الحذف** — لو مسار غير صالح تتوقف، ومش بتحذف حاجة.
-- **ملف حاجز (marker)** يمنع تشغيل `DISM` أكثر من مرة كل 60 يومًا.
-- **اختيارات المستخدم (Opt-in)** لسلة المحذوفات ونقل ملف الترحيل.
+**Typical gain:** 5–15 GB, depending on your usage.
 
 ---
 
-## الخيارات في الواجهة
+## Safety — what it does *not* touch
 
-| الخيار | الافتراضي | الأثر |
+- ❌ Your libraries and personal files (Desktop, Documents, Downloads, Pictures)
+- ❌ **Bookmarks, saved passwords, and browsing history** — only cache directories are removed
+- ❌ Saved login data for any application
+- ❌ The Recycle Bin (unless you opt in)
+- ❌ System files
+
+### Design principles
+
+- **Locked files are skipped silently** instead of being forced or failing the run — you can clean while apps are open.
+- **User paths are resolved dynamically** — some corporate machines ship with an empty `%LOCALAPPDATA%`.
+- **Paths are validated before deletion** — an invalid path aborts the run instead of deleting the wrong location.
+- **A marker file** prevents `DISM` from running more than once every 60 days.
+- **Opt-in defaults** for the Recycle Bin and pagefile relocation.
+
+---
+
+## Options in the GUI
+
+| Option | Default | Effect |
 |---|---|---|
-| تفريغ سلة المحذوفات | مُعطَّل | مش مفعّل افتراضيًا لحماية ملفاتك |
-| نقل ملف الترحيل من C: إلى D: | مُعطَّل | يحرّر مساحة كبيرة — **يحتاج إعادة تشغيل** |
+| Empty the Recycle Bin | Off | Off by default to protect your files |
+| Move pagefile from C: to D: | Off | Frees significant space — **requires a restart** |
 
 ---
 
-## السجل
+## Logging
 
-بعد كل تشغيل يُحفظ `laptop-cleaner-log.txt` على سطح المكتب: المساحة قبل وبعد، اللي اتحرّر، والزمن.
+Every run writes `laptop-cleaner-log.txt` to your Desktop: free space before and after, amount reclaimed, and duration.
 
 ---
 
-## حلّ المشاكل
+## Troubleshooting
 
-| المشكلة | الحل |
+| Problem | Fix |
 |---|---|
-| مفيش حاجة حصلت بعد النقر | انقر بأيمن الفأرة ← **تشغيل كمسؤول** |
-| «WPS is running - skipped» | أغلق WPS وأعد التشغيل |
-| «ملفات مقفلة» | طبيعي — أي ملف بيستخدمه برنامج مفتوح بيتخطّى بأمان |
-| الكاشات رجعت | طبيعي بعد كل تنظيف — كرّرها كل شهر أو شهرين |
-| «الصلاحيات: مستخدم عادي» | فشل طلب الصلاحيات — شغّلها كمسؤول يدويًا |
+| Nothing happens after double-click | Right-click → **Run as administrator** |
+| "WPS is running - skipped" | Close WPS and run again |
+| "locked" entries | Normal — any file in use by an open app is skipped safely |
+| Caches come back | Expected after any cleanup — repeat every month or two |
+| "Permissions: standard user" | The UAC request failed — run as administrator manually |
 
 ---
 
-## ملاحظة عن C:
+## A note on C:
 
-الأداة بتنضّف، بس **لو C: صغير أصلًا** (زي 170 جيجا على قرص 512 جيجا) هيرجع يمتلئ. الحل الدائم: انقل المشاريع والبيانات الكبيرة لقرص تاني، وانقل `pagefile.sys` كمان.
+This tool cleans, but **if C: is simply too small** (e.g. 170 GB on a 512 GB drive) it will fill up again. The durable fix is to move large projects and data to another drive, and relocate `pagefile.sys` as well.
 
-**على جهاز فيه Docker أو WSL:** ملف `docker_data.vhdx` بيكبر مع كل استخدام وبيوصل لعشرات الجيجا. انقله لقرص فيه مساحة.
+**On a machine running Docker or WSL:** `docker_data.vhdx` grows with every use and can reach tens of gigabytes. Move it to a drive with free space.
 
 ---
 
-## بنية الملفات
+## File layout
 
 ```
-Clean-Laptop.bat      # مشغّل الواجهة الإنجليزية
-Clean-Laptop-AR.bat   # مشغّل الواجهة العربية
-clean.ps1             # المحرك (إنجليزي)
-clean-ar.ps1          # المحرك (عربي)
+Clean-Laptop.bat      # English UI launcher
+Clean-Laptop-AR.bat   # Arabic UI launcher
+clean.ps1             # English engine
+clean-ar.ps1          # Arabic engine
 ```
 
 ---
 
-## الرخصة
+## License
 
-MIT — شوف `LICENSE`.
-
----
-
-<sub>**English:** Laptop Cleaner is a one-click Windows disk cleanup tool (Arabic + English UI) that removes regenerable caches and temporary files. It never touches your documents, browser bookmarks, saved passwords, or application settings. Double-click `Clean-Laptop.bat`, approve the UAC prompt, press the button. Requires Windows 10/11 with PowerShell 5.1.</sub>
+MIT — see `LICENSE`.
