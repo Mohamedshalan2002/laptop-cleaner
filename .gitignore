@@ -1,0 +1,12 @@
+﻿# Logs produced at runtime
+laptop-cleaner-log.txt
+سجل-التنظيف.txt
+
+# PowerShell artifacts
+*.log
+*.tmp
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
